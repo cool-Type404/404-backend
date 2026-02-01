@@ -1,7 +1,7 @@
 package com.type404.backend.domain.user.entity;
 
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
-import com.type404.backend.domain.user.entity.enumtype.StoreCategory;
+import com.type404.backend.domain.store.entity.enumtype.StoreCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
