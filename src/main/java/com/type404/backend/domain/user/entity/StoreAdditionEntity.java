@@ -1,6 +1,6 @@
 package com.type404.backend.domain.user.entity;
 
-import com.type404.backend.domain.auth.entity.UserEntity;
+import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.user.entity.enumtype.StoreCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,7 +20,7 @@ public class StoreAdditionEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity user;
+    private UserInfoEntity user;
 
     @Column(name = "storeadd_name", nullable = false)
     private String storeAddName;
