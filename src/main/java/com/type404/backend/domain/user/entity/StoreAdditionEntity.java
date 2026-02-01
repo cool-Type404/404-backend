@@ -20,7 +20,7 @@ public class StoreAdditionEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private UserInfoEntity user;
+    private UserInfoEntity userId;
 
     @Column(name = "storeadd_name", nullable = false)
     private String storeAddName;
