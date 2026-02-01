@@ -1,4 +1,4 @@
-package com.type404.backend.domain.review.entity.enumtype;
+package com.type404.backend.domain.review.entity;
 
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;

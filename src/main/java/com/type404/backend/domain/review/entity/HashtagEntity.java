@@ -1,4 +1,4 @@
-package com.type404.backend.domain.review.entity.enumtype;
+package com.type404.backend.domain.review.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
