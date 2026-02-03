@@ -3,15 +3,14 @@ package com.type404.backend.domain.user.entity;
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.review.entity.ReviewEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "review_like")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class LikeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

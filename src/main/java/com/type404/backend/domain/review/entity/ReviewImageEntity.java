@@ -1,15 +1,14 @@
 package com.type404.backend.domain.review.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "review_image")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class ReviewImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

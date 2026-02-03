@@ -3,15 +3,14 @@ package com.type404.backend.domain.user.entity;
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "bookmark")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class BookmarkEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

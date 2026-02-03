@@ -3,9 +3,7 @@ package com.type404.backend.domain.review.entity;
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.math.BigDecimal;
@@ -14,8 +12,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "review")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,15 +1,14 @@
 package com.type404.backend.domain.store.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "store_seat")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class StoreSeatEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

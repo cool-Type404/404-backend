@@ -1,9 +1,7 @@
 package com.type404.backend.domain.auth.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,8 +10,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "email_verification")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class EmailVerificationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

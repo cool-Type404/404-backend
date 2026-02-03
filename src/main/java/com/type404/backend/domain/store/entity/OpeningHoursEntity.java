@@ -2,9 +2,7 @@ package com.type404.backend.domain.store.entity;
 
 import com.type404.backend.domain.store.entity.enumtype.Days;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalTime;
@@ -12,8 +10,9 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "opening_hours")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class OpeningHoursEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

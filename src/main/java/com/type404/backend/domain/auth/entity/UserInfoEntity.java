@@ -4,9 +4,7 @@ import com.type404.backend.domain.auth.entity.enumtype.Age;
 import com.type404.backend.domain.auth.entity.enumtype.EatingLevel;
 import com.type404.backend.domain.auth.entity.enumtype.Gender;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -15,8 +13,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user_info")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class UserInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

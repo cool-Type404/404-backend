@@ -3,17 +3,16 @@ package com.type404.backend.domain.store.entity;
 import com.type404.backend.domain.auth.entity.enumtype.EatingLevel;
 import com.type404.backend.domain.store.entity.enumtype.StoreCategory;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "store_info")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-
 public class StoreInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
