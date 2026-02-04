@@ -1,5 +1,6 @@
 package com.type404.backend.global.userdetails;
 
+import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,10 +9,10 @@ import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final TempUser tempUser;
+    private final UserInfoEntity userInfo;
 
-    public CustomUserDetails(TempUser tempUser) {
-        this.tempUser = tempUser;
+    public CustomUserDetails(UserInfoEntity userInfo) {
+        this.userInfo = userInfo;
     }
 
 
@@ -22,25 +23,17 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return tempUser.getUserPw();
+        return userInfo.getUserPassword();
     }
 
     @Override
-    public String getUsername() {
-        return tempUser.getUserEmail();
-    }
+    public String getUsername() { return userInfo.getUserEmail(); }
 
-    public String getNickname() {
-        return tempUser.getUserNickname();
-    }
+    public String getNickname() { return userInfo.getUserNickname(); }
 
-    public Long getUserId() {
-        return tempUser.getUserId();
-    }
+    public Long getUserPK() { return userInfo.getUserPK(); }
 
-    public TempUser getTempUser() {
-        return this.tempUser;
-    }
+    public UserInfoEntity getUserInfo() { return this.userInfo; }
 
     @Override
     public boolean isAccountNonExpired() { return true; }     // 계정 만료 여부: 항상 true
