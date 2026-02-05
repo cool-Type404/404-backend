@@ -41,4 +41,7 @@ public class StoreInfoEntity {
 
     @Column(name = "avg_rating", precision = 2, scale = 1)
     private BigDecimal avgRating;
+
+    @Column(name = "store_img")
+    private String storeImg;
 }
