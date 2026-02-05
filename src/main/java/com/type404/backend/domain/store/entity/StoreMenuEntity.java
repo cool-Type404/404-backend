@@ -27,4 +27,7 @@ public class StoreMenuEntity {
 
     @Column(name = "is_rec", nullable = false)
     private Boolean isRec = false;
+
+    @Column(name = "menu_img")
+    private String menuImg;
 }
