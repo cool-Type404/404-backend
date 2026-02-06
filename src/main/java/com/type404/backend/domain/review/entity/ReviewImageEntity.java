@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "review_image")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

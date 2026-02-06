@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "store_addition")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

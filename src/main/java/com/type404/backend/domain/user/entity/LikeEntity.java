@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "review_like")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

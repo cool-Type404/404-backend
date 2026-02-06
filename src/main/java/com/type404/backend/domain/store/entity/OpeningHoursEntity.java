@@ -10,6 +10,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "opening_hours")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
