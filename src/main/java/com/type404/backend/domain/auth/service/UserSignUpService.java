@@ -45,6 +45,13 @@ public class UserSignUpService {
                     "이미 가입된 이메일입니다."
             );
         }
+        // 이메일 중복 검사
+        if (userInfoRepository.existsByUserNickname(request.getNickname())) {
+            throw new BadRequestException(
+                    ErrorCode.DATA_ALREADY_EXIST,
+                    "이미 존재하는 닉네임입니다."
+            );
+        }
 
         // 비밀번호 암호화하기
         String encodedPassword = passwordEncoder.encode(request.getPassword());
