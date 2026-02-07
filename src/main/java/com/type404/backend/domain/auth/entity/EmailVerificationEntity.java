@@ -3,7 +3,6 @@ package com.type404.backend.domain.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
@@ -29,7 +28,12 @@ public class EmailVerificationEntity {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    // 만료기간
+    @Column(name = "expires_at", nullable = false)
+    private LocalDateTime expiresAt;
+
+    // 인증여부
+    @Column(name = "is_verified", nullable = false)
+    private Boolean isVerified = false;
+
 }
