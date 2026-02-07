@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/error",
-                                "/api/auth/email-verification/**"
+                                "/api/auth/**"
                         ).permitAll()
 
                         // 2. 비로그인 허용 기능
