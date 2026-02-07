@@ -3,6 +3,7 @@ package com.type404.backend.domain.auth.controller;
 import com.type404.backend.domain.auth.dto.request.EmailSendRequest;
 import com.type404.backend.domain.auth.dto.request.EmailVerifyRequest;
 import com.type404.backend.domain.auth.service.EmailVerificationService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class EmailVerificationController {
 
     @PostMapping("/send")
     public ResponseEntity<Void> sendEmail(
-            @RequestBody EmailSendRequest request
+            @Valid @RequestBody EmailSendRequest request
     ) {
         emailVerificationService.sendVerificationEmail(request.getEmail());
         return ResponseEntity.ok().build();
@@ -27,7 +28,7 @@ public class EmailVerificationController {
 
     @PostMapping("/verify")
     public ResponseEntity<Void> verifyEmail(
-            @RequestBody EmailVerifyRequest request
+            @Valid @RequestBody EmailVerifyRequest request
     ) {
         emailVerificationService.verifyCode(
                 request.getEmail(),

@@ -2,6 +2,8 @@ package com.type404.backend.domain.auth.service;
 
 import com.type404.backend.domain.auth.entity.EmailVerificationEntity;
 import com.type404.backend.domain.auth.repository.EmailVerificationRepository;
+import com.type404.backend.global.exception.ErrorCode;
+import com.type404.backend.global.exception.exceptionType.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,7 @@ import java.util.Random;
 public class EmailVerificationService {
     private final EmailVerificationRepository emailVerificationRepository;
     private static final int EXPIRE_MINUTES = 5;
+    private final EmailSenderService emailSenderService;
 
     // 인증 코드 발송 요청
     public void sendVerificationEmail(String email) {
@@ -25,6 +28,7 @@ public class EmailVerificationService {
                         .map(existing -> updateVerification(existing, authCode, expiresAt))
                         .orElseGet(() -> createVerification(email, authCode, expiresAt));
         emailVerificationRepository.save(emailEntity);
+        emailSenderService.sendVerificationMail(email, authCode);
     }
 
     // 이메일이 없을 경우, 새로운 행 생성
@@ -39,28 +43,42 @@ public class EmailVerificationService {
 
     // 이메일이 있을 경우, 기존 행 업데이트
     private EmailVerificationEntity updateVerification(EmailVerificationEntity emailEntity, String authCode, LocalDateTime expiresAt) {
-        emailEntity.setAuthCode(authCode);
-        emailEntity.setExpiresAt(expiresAt);
-        emailEntity.setIsVerified(false);
+        emailEntity.reVerification(authCode, expiresAt);
         return emailEntity;
     }
 
     // 인증 코드 검증
-    public boolean verifyCode(String email, String inputCode) {
+    public void verifyCode(String email, String inputCode) {
         EmailVerificationEntity emailEntity = emailVerificationRepository.findByUserEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이메일로 전송된 인증 코드가 존재하지 않습니다."));
-
+                .orElseThrow(() -> new BadRequestException(
+                        ErrorCode.DATA_NOT_EXIST,
+                        "해당 이메일로 전송된 인증 코드가 존재하지 않습니다."
+                )
+        );
         // 이미 인증된 경우
-        if (Boolean.TRUE.equals(emailEntity.getIsVerified())) { return true; }
+        if (emailEntity.getIsVerified()) {
+            throw new BadRequestException(
+                    ErrorCode.DATA_ALREADY_EXIST,
+                    "이미 인증된 이메일입니다."
+            );
+        }
         // 만료 기한 체크
-        if (!emailEntity.getExpiresAt().isBefore(LocalDateTime.now())) { return false; }
+        if (emailEntity.isExpired(LocalDateTime.now())) {
+            throw new BadRequestException(
+                    ErrorCode.INVALID_PARAMETER,
+                    "인증 코드가 만료되었습니다."
+            );
+        }
         // 코드 불일치
-        if (!emailEntity.getAuthCode().equals(inputCode)) { return false; }
-
+        if (!emailEntity.getAuthCode().equals(inputCode)) {
+            throw new BadRequestException(
+                    ErrorCode.INVALID_PARAMETER,
+                    "인증 코드가 일치하지 않습니다."
+            );
+        }
         // 인증 성공 처리
-        emailEntity.setIsVerified(true);
+        emailEntity.verify();
         emailVerificationRepository.save(emailEntity);
-        return true;
     }
 
     // 인증 코드 생성
