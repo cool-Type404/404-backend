@@ -36,13 +36,13 @@ public class StoreRequestDTO {
     private BigDecimal storeRating;
 
     @JsonProperty("seat")
-    private SeatDTO seat;
+    private SeatRequestDTO seat;
 
     @JsonProperty("opening_hours")
-    private List<OpeningHourDTO> openingHours;
+    private List<OpeningHourRequestDTO> openingHours;
 
     @JsonProperty("menu")
-    private List<MenuDTO> menu;
+    private List<MenuRequestDTO> menu;
 
     public StoreInfoEntity toEntity(byte[] storeImage) {
         return StoreInfoEntity.builder()

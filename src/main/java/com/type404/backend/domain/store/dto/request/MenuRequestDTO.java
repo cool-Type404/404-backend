@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuDTO {
+public class MenuRequestDTO {
     @JsonProperty("menu_name")
     private String menuName;
 

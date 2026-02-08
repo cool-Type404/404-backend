@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SeatDTO {
+public class SeatRequestDTO {
     @JsonProperty("single_seat")
     private boolean singleSeat;
 

@@ -15,7 +15,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OpeningHourDTO {
+public class OpeningHourRequestDTO {
     @JsonProperty("day")
     private Days day;
 
