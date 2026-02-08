@@ -1,8 +1,11 @@
 package com.type404.backend.domain.auth.entity.enumtype;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.stream.Stream;
 
 @Getter
 @AllArgsConstructor
@@ -20,5 +23,13 @@ public enum Age {
     @JsonValue
     public String getDescription() {
         return description;
+    }
+
+    @JsonCreator
+    public static Age from(String value) {
+        return Stream.of(Age.values())
+                .filter(age -> age.name().equalsIgnoreCase(value) || age.description.equals(value))
+                .findFirst()
+                .orElse(Age.NONE);
     }
 }
