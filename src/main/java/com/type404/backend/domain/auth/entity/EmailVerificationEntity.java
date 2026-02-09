@@ -3,10 +3,12 @@ package com.type404.backend.domain.auth.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "email_verification")
 @Getter
 @Builder
@@ -36,4 +38,20 @@ public class EmailVerificationEntity {
     @Column(name = "is_verified", nullable = false)
     private Boolean isVerified = false;
 
+    // 인증 코드 재발급
+    public void reVerification(String authCode, LocalDateTime expiresAt) {
+        this.authCode = authCode;
+        this.expiresAt = expiresAt;
+        this.isVerified = false;
+    }
+
+    // 인증 성공
+    public void verify() {
+        this.isVerified = true;
+    }
+
+    // 만료 여부
+    public boolean isExpired(LocalDateTime now) {
+        return expiresAt.isBefore(now);
+    }
 }

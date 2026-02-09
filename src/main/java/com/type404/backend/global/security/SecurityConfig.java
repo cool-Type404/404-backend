@@ -43,6 +43,7 @@ public class SecurityConfig {
                         ).permitAll()
 
                         // 2. 비로그인 허용 기능
+                        .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/stores").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/stores/{store_id}").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/stores/{storeId}/reviews").permitAll()
