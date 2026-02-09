@@ -199,16 +199,26 @@ public class StoreService {
     */
     // 매장 이미지 데이터 추출
     public byte[] getStoreImageBytes(Long storeId) {
-        return storeInfoRepository.findById(storeId)
-                .map(StoreInfoEntity::getStoreImage)
-                .orElse(null);
+        StoreInfoEntity store = storeInfoRepository.findById(storeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "해당 식당을 찾을 수 없습니다."));
+
+        if (store.getStoreImage() == null) {
+            throw new CustomException(ErrorCode.DATA_UNAVAILABLE, "등록된 매장 이미지가 없습니다.");
+        }
+
+        return store.getStoreImage();
     }
 
     // 메뉴 이미지 데이터 추출
     public byte[] getMenuImageBytes(Long menuId) {
-        return storeMenuRepository.findById(menuId)
-                .map(StoreMenuEntity::getMenuImg)
-                .orElse(null);
+        StoreMenuEntity menu = storeMenuRepository.findById(menuId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "해당 메뉴를 찾을 수 없습니다."));
+
+        if (menu.getMenuImg() == null) {
+            throw new CustomException(ErrorCode.DATA_UNAVAILABLE, "등록된 메뉴 이미지가 없습니다.");
+        }
+
+        return menu.getMenuImg();
     }
 
 }
