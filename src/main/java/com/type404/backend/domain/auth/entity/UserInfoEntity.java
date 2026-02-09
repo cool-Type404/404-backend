@@ -42,16 +42,19 @@ public class UserInfoEntity {
     private String userNickname;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_gender")
-    private Gender userGender;
+    @Column(name = "user_gender", nullable = false)
+    @Builder.Default
+    private Gender userGender = Gender.NONE;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_age")
-    private Age userAge;
+    @Column(name = "user_age", nullable = false)
+    @Builder.Default
+    private Age userAge = Age.NONE;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "eating_level", nullable = false)
-    private EatingLevel eatingLevel;
+    @Builder.Default
+    private EatingLevel eatingLevel = EatingLevel.LEVEL1;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
