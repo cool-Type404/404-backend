@@ -9,6 +9,8 @@ import com.type404.backend.domain.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -75,5 +77,29 @@ public class StoreController {
     ) {
         List<StoreListResponseDTO> response = storeService.filterStores(storeType, eatingLevel, seat);
         return ResponseEntity.ok(response);
+    }
+
+    // 매장 대표 이미지 조회
+    @Operation(summary = "매장 이미지 조회")
+    @GetMapping("/image/{storeId}")
+    public ResponseEntity<Resource> getStoreImage(@PathVariable Long storeId) {
+        byte[] image = storeService.getStoreImageBytes(storeId);
+        if (image == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG) // 실제 형식에 맞춰 조절 필요
+                .body(new ByteArrayResource(image));
+    }
+
+    // 메뉴 이미지 조회
+    @Operation(summary = "메뉴 이미지 조회")
+    @GetMapping("/menu/image/{menuId}")
+    public ResponseEntity<Resource> getMenuImage(@PathVariable Long menuId) {
+        byte[] image = storeService.getMenuImageBytes(menuId);
+        if (image == null) return ResponseEntity.notFound().build();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(new ByteArrayResource(image));
     }
 }

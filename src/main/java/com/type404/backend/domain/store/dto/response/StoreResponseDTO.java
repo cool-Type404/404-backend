@@ -74,7 +74,7 @@ public class StoreResponseDTO {
                 .isOpen(store.getIsOpen())
                 .avgRating(store.getAvgRating())
                 .storeImage(store.getStoreImage() != null ?
-                        Base64.getEncoder().encodeToString(store.getStoreImage()) : null)
+                        "/api/stores/image/" + store.getStoreInfoPK() : null)
                 .seats(seats != null ?
                         seats.stream()
                                 .map(SeatResponseDTO::fromEntity)

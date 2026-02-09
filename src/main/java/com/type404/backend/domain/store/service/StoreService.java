@@ -103,7 +103,7 @@ public class StoreService {
 
 
 
-    /**
+    /*
      * [관리자 식당 등록 로직 영역]
      * 복잡한 식당 등록 프로세스를 각 도메인별(정보, 좌석, 시간, 메뉴)로 모듈화
      */
@@ -192,6 +192,23 @@ public class StoreService {
 
             storeMenuRepository.save(menus.get(i).toEntity(store, pic));
         }
+    }
+
+    /*
+    *  이미지 데이터 추출 로직
+    */
+    // 매장 이미지 데이터 추출
+    public byte[] getStoreImageBytes(Long storeId) {
+        return storeInfoRepository.findById(storeId)
+                .map(StoreInfoEntity::getStoreImage)
+                .orElse(null);
+    }
+
+    // 메뉴 이미지 데이터 추출
+    public byte[] getMenuImageBytes(Long menuId) {
+        return storeMenuRepository.findById(menuId)
+                .map(StoreMenuEntity::getMenuImg)
+                .orElse(null);
     }
 
 }
