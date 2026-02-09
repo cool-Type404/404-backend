@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "store_nemu")
+@Table(name = "store_menu")
 @Getter
 @Builder
 @AllArgsConstructor
@@ -28,6 +28,6 @@ public class StoreMenuEntity {
     @Column(name = "is_rec", nullable = false)
     private Boolean isRec = false;
 
-    @Column(name = "menu_img")
-    private String menuImg;
+    @Column(name = "menu_img", columnDefinition = "LONGBLOB")
+    private byte[] menuImg;
 }
