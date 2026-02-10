@@ -37,7 +37,7 @@ public class MenuResponseDTO {
                 .price(entity.getPrice())
                 .isRec(entity.getIsRec())
                 .menuImg(entity.getMenuImg() != null ?
-                        Base64.getEncoder().encodeToString(entity.getMenuImg()) : null)
+                        "/api/stores/menu/image/"  + entity.getMenuPK() : null)
                 .build();
     }
 }
