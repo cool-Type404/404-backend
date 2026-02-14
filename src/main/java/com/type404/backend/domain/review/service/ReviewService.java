@@ -2,6 +2,7 @@ package com.type404.backend.domain.review.service;
 
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.review.dto.request.ReviewRequestDTO;
+import com.type404.backend.domain.review.dto.response.ReviewListResponseDTO;
 import com.type404.backend.domain.review.entity.*;
 import com.type404.backend.domain.review.repository.*;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
@@ -34,6 +35,28 @@ public class ReviewService {
         saveReviewImages(review, request.getReviewImages());
         saveHashtags(review, request.getHashtags());
     }
+
+    public List<ReviewListResponseDTO> getStoreReviews(Long storeId) {
+        StoreInfoEntity store = storeInfoRepository.findById(storeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
+
+        List<ReviewEntity> reviews = reviewRepository.findAllByStoreIdOrderByCreatedAtDesc(store);
+
+        return reviews.stream().map(review -> {
+            List<String> hashtags = hashtagRepository.findAllByReviewId(review).stream()
+                    .map(HashtagEntity::getHashtagName)
+                    .toList();
+
+            List<String> images = reviewImageRepository.findAllByReviewId(review).stream()
+                    .map(ReviewImageEntity::getReviewImgPath)
+                    .toList();
+
+            return ReviewListResponseDTO.fromEntity(review, hashtags, images);
+        }).collect(Collectors.toList());
+    }
+
+
+
 
     /**
      * 리뷰 이미지 저장 로직 분리
