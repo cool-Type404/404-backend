@@ -2,7 +2,6 @@ package com.type404.backend.domain.review.service;
 
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.review.dto.request.ReviewRequestDTO;
-import com.type404.backend.domain.review.dto.response.ReviewResponseDTO;
 import com.type404.backend.domain.review.entity.*;
 import com.type404.backend.domain.review.repository.*;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
@@ -26,7 +25,7 @@ public class ReviewService {
     private final StoreInfoRepository storeInfoRepository;
 
     @Transactional
-    public ReviewResponseDTO createReview(UserInfoEntity user, Long storeId, ReviewRequestDTO request) {
+    public void createReview(UserInfoEntity user, Long storeId, ReviewRequestDTO request) {
         StoreInfoEntity store = storeInfoRepository.findById(storeId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
 
@@ -34,8 +33,6 @@ public class ReviewService {
 
         saveReviewImages(review, request.getReviewImages());
         saveHashtags(review, request.getHashtags());
-
-        return ReviewResponseDTO.fromEntity(review, request.getReviewImages());
     }
 
     /**

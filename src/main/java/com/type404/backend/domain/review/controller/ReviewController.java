@@ -1,7 +1,6 @@
 package com.type404.backend.domain.review.controller;
 
 import com.type404.backend.domain.review.dto.request.ReviewRequestDTO;
-import com.type404.backend.domain.review.dto.response.ReviewResponseDTO;
 import com.type404.backend.domain.review.service.ReviewService;
 import com.type404.backend.global.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,17 +20,17 @@ public class ReviewController {
 
     @Operation(summary = "식당 리뷰 작성", description = "특정 식당에 대해 리뷰 내용, 평점, 해시태그, 이미지를 등록합니다.")
     @PostMapping("/{storeId}/reviews")
-    public ResponseEntity<ReviewResponseDTO> createReview(
+    public ResponseEntity<String> createReview(
             @PathVariable Long storeId,
             @RequestBody ReviewRequestDTO request,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        ReviewResponseDTO response = reviewService.createReview(
+        reviewService.createReview(
                 customUserDetails.getUserInfo(),
                 storeId,
                 request
         );
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok("리뷰가 성공적으로 등록되었습니다.");
     }
 }
