@@ -31,8 +31,7 @@ public class ReviewService {
     // 식당 리뷰 작성 기능
     @Transactional
     public void createReview(UserInfoEntity user, Long storeId,
-                             ReviewRequestDTO request,
-                             List<MultipartFile> images) {
+                             ReviewRequestDTO request, List<MultipartFile> images) {
 
         StoreInfoEntity store = storeInfoRepository.findById(storeId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
@@ -127,7 +126,7 @@ public class ReviewService {
             try {
                 return ReviewImageEntity.builder()
                         .reviewId(review)
-                        .reviewImgPath(file.getBytes()) // byte[]로 변환하여 저장
+                        .reviewImgPath(file.getBytes())
                         .build();
             } catch (IOException e) {
                 throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, "이미지 처리 중 오류 발생");
@@ -138,19 +137,14 @@ public class ReviewService {
     }
 
     // 해시태그 저장 로직 분리
-    private void saveHashtags(ReviewEntity review, List<String> hashtagNames) {
+    private void saveHashtags(ReviewEntity review, List<HashtagType> hashtagNames) {
         if (hashtagNames == null || hashtagNames.isEmpty()) return;
 
-        List<HashtagEntity> hashtags = hashtagNames.stream().map(name -> {
-            try {
-                HashtagType type = HashtagType.valueOf(name);
+        List<HashtagEntity> hashtags = hashtagNames.stream().map(type -> {
                 return HashtagEntity.builder()
                         .reviewId(review)
                         .hashtagName(type)
                         .build();
-            } catch (IllegalArgumentException e) {
-                throw new CustomException(ErrorCode.INVALID_PARAMETER, "유효하지 않은 해시태그: " + name);
-            }
         }).collect(Collectors.toList());
 
         hashtagRepository.saveAll(hashtags);
