@@ -19,6 +19,7 @@ public class HashtagEntity {
     @JoinColumn(name = "review_id", nullable = false)
     private ReviewEntity reviewId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "hashtag_name", nullable = false)
-    private String hashtagName;
+    private HashtagType hashtagName;
 }

@@ -20,5 +20,5 @@ public class ReviewImageEntity {
     private ReviewEntity reviewId;
 
     @Column(name = "review_img_path", nullable = false)
-    private String reviewImgPath;
+    private byte[] reviewImgPath;
 }
