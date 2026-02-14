@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface HashtagRepository extends JpaRepository<HashtagEntity, Long> {
     List<HashtagEntity> findAllByReviewId(ReviewEntity reviewId);
+
+    void deleteAllByReviewId(ReviewEntity reviewId);
 }

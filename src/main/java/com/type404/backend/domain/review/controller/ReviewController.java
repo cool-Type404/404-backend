@@ -46,4 +46,15 @@ public class ReviewController {
 
         return ResponseEntity.ok(response);
     }
+
+    @Operation(summary = "식당 리뷰 삭제", description = "사용자가 본인이 작성한 리뷰를 삭제합니다.")
+    @DeleteMapping("/reviews/{reviewId}")
+    public ResponseEntity<String> deleteReview(
+            @PathVariable Long reviewId,
+            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        reviewService.deleteReview(customUserDetails.getUserInfo(), reviewId);
+
+        return ResponseEntity.ok("리뷰가 삭제되었습니다.");
+    }
 }

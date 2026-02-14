@@ -55,6 +55,21 @@ public class ReviewService {
         }).collect(Collectors.toList());
     }
 
+    @Transactional
+    public void deleteReview(UserInfoEntity user, Long reviewId) {
+        ReviewEntity review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "해당 리뷰가 존재하지 않습니다."));
+
+        if (!review.getUserId().getUserPK().equals(user.getUserPK())) {
+            throw new CustomException(ErrorCode.ACCESS_DENIED, "본인이 작성한 리뷰만 삭제할 수 있습니다.");
+        }
+
+        reviewImageRepository.deleteAllByReviewId(review);
+        hashtagRepository.deleteAllByReviewId(review);
+
+        reviewRepository.delete(review);
+    }
+
 
 
 
