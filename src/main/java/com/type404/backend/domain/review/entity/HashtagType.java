@@ -1,5 +1,6 @@
 package com.type404.backend.domain.review.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.type404.backend.global.exception.CustomException;
 import com.type404.backend.global.exception.ErrorCode;
@@ -18,6 +19,7 @@ public enum HashtagType {
     KIND_SERVICE("친절한 응대"),
     HEARTY_MEAL("든든한 한끼");
 
+    @JsonValue
     private final String description;
 
     public static boolean isValid(String input) {
