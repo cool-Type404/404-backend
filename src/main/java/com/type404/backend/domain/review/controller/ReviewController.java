@@ -6,6 +6,7 @@ import com.type404.backend.domain.review.service.ReviewService;
 import com.type404.backend.global.userdetails.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class ReviewController {
     @PostMapping(value = "/stores/{storeId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> createReview(
             @PathVariable Long storeId,
-            @RequestPart("request") ReviewRequestDTO request,
+            @RequestPart("request") @Valid ReviewRequestDTO request,
             @RequestPart(value = "images", required = false) List<MultipartFile> images,
             @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 

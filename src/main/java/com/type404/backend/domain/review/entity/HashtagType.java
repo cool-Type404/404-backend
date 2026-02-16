@@ -1,8 +1,8 @@
 package com.type404.backend.domain.review.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.type404.backend.global.exception.CustomException;
 import com.type404.backend.global.exception.ErrorCode;
-import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
+@JsonDeserialize(using = HashtagTypeDeserializer.class)
 public enum HashtagType {
     COST_EFFECTIVE("가성비 좋은"),
     TRUSTED_RESTAURANT("믿고가는 맛집"),
