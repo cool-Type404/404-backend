@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @RequiredArgsConstructor
-@JsonDeserialize(using = HashtagTypeDeserializer.class)
 public enum HashtagType {
     COST_EFFECTIVE("가성비 좋은"),
     TRUSTED_RESTAURANT("믿고가는 맛집"),
