@@ -79,4 +79,14 @@ public class ReviewController {
         reviewService.removeReviewLike(customUserDetails.getUserInfo(), reviewId);
         return ResponseEntity.ok("좋아요가 삭제되었습니다.");
     }
+
+    @Operation(summary = "리뷰 이미지 조회")
+    @GetMapping("/reviews/image/{reviewImgId}")
+    public ResponseEntity<byte[]> getReviewImage(@PathVariable Long reviewImgId) {
+        byte[] imageData = reviewService.getReviewImageData(reviewImgId);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(imageData);
+    }
 }

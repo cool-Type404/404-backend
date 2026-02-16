@@ -51,18 +51,14 @@ public class ReviewService {
         List<ReviewEntity> reviews = reviewRepository.findAllByStoreIdOrderByCreatedAtDesc(store);
 
         return reviews.stream().map(review -> {
-            // 1. 해시태그: Enum 타입을 문자열(name)로 변환하여 List<String> 생성
             List<String> hashtags = hashtagRepository.findAllByReviewId(review).stream()
                     .map(hashtag -> hashtag.getHashtagName().name())
                     .toList();
 
-            // 2. 이미지: byte[] 데이터가 아닌, 각 이미지 엔티티의 PK를 포함한 URL 리스트 생성
-            // 여기서 생성된 List<String>이 DTO의 fromEntity 세 번째 인자로 들어갑니다.
             List<String> imageIds = reviewImageRepository.findAllByReviewId(review).stream()
                     .map(imageEntity -> String.valueOf(imageEntity.getReviewImgPK())) // 이미지 PK를 문자열로 변환
                     .toList();
 
-            // DTO의 fromEntity 호출 (전달되는 imageIds는 이제 List<String> 타입입니다)
             return ReviewListResponseDTO.fromEntity(review, hashtags, imageIds);
         }).collect(Collectors.toList());
     }
@@ -97,6 +93,8 @@ public class ReviewService {
                     .reviewId(review)
                     .build();
             reviewLikeRepository.save(newLike);
+        } else {
+            throw new CustomException(ErrorCode.DATA_ALREADY_EXIST, "이미 좋아요를 누른 리뷰입니다.");
         }
     }
 
@@ -113,6 +111,19 @@ public class ReviewService {
         reviewLikeRepository.delete(existingLike);
     }
 
+
+
+
+    /*
+     *  이미지 데이터 추출 로직
+     */
+    // 식당 리뷰 이미지 데이터 추출
+    public byte[] getReviewImageData(Long reviewImgId) {
+        ReviewImageEntity image = reviewImageRepository.findById(reviewImgId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "해당 이미지가 존재하지 않습니다."));
+
+        return image.getReviewImgPath();
+    }
 
 
     /**
