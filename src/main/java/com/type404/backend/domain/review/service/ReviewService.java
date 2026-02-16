@@ -33,6 +33,13 @@ public class ReviewService {
     public void createReview(UserInfoEntity user, Long storeId,
                              ReviewRequestDTO request, List<MultipartFile> images) {
 
+        if (request.getHashtags() != null) {
+            List<String> hashtagNames = request.getHashtags().stream()
+                    .map(Enum::name)
+                    .toList();
+            HashtagType.validateHashtags(hashtagNames);
+        }
+
         StoreInfoEntity store = storeInfoRepository.findById(storeId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
 
@@ -52,11 +59,11 @@ public class ReviewService {
 
         return reviews.stream().map(review -> {
             List<String> hashtags = hashtagRepository.findAllByReviewId(review).stream()
-                    .map(hashtag -> hashtag.getHashtagName().name())
+                    .map(hashtag -> hashtag.getHashtagName().getDescription())
                     .toList();
 
             List<String> imageIds = reviewImageRepository.findAllByReviewId(review).stream()
-                    .map(imageEntity -> String.valueOf(imageEntity.getReviewImgPK())) // 이미지 PK를 문자열로 변환
+                    .map(imageEntity -> String.valueOf(imageEntity.getReviewImgPK()))
                     .toList();
 
             return ReviewListResponseDTO.fromEntity(review, hashtags, imageIds);
