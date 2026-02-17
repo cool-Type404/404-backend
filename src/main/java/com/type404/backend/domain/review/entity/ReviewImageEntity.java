@@ -19,6 +19,6 @@ public class ReviewImageEntity {
     @JoinColumn(name = "review_id", nullable = false)
     private ReviewEntity reviewId;
 
-    @Column(name = "review_img_path", nullable = false)
-    private String reviewImgPath;
+    @Column(name = "review_img_path", nullable = false, columnDefinition = "LONGBLOB")
+    private byte[] reviewImgPath;
 }

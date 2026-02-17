@@ -8,6 +8,7 @@ import com.type404.backend.domain.store.entity.enumtype.StoreCategory;
 import com.type404.backend.domain.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -30,7 +31,7 @@ public class StoreController {
     @Operation(summary = "관리자 식당 등록", description = "식당 정보, 좌석, 영업시간, 메뉴 및 이미지를 등록합니다.")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> addStore(
-            @RequestPart("storeData") StoreRequestDTO requestDTO,
+            @RequestPart("storeData") @Valid StoreRequestDTO requestDTO,
             @RequestPart(value = "storeImage", required = false) MultipartFile storeImage,
             @RequestPart(value = "menuImages", required = false) List<MultipartFile> menuImages
     ) {

@@ -1,7 +1,6 @@
-package com.type404.backend.domain.user.entity;
+package com.type404.backend.domain.review.entity;
 
 import com.type404.backend.domain.auth.entity.UserInfoEntity;
-import com.type404.backend.domain.review.entity.ReviewEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -5,6 +5,7 @@ import com.type404.backend.domain.store.entity.StoreInfoEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
