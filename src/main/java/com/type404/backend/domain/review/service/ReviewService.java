@@ -33,15 +33,15 @@ public class ReviewService {
     public void createReview(UserInfoEntity user, Long storeId,
                              ReviewRequestDTO request, List<MultipartFile> images) {
 
-        if (request.getHashtags() != null) {
+        StoreInfoEntity store = storeInfoRepository.findById(storeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "존재하지 않는 식당입니다. storeId를 확인해 주세요."));
+
+        if (request.getHashtags() != null && !request.getHashtags().isEmpty()) {
             List<String> hashtagNames = request.getHashtags().stream()
                     .map(Enum::name)
                     .toList();
             HashtagType.validateHashtags(hashtagNames);
         }
-
-        StoreInfoEntity store = storeInfoRepository.findById(storeId)
-                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
 
         ReviewEntity review = reviewRepository.save(request.toEntity(user, store));
 
@@ -53,13 +53,13 @@ public class ReviewService {
     // 식당 리뷰 전체 조회 기능
     public List<ReviewListResponseDTO> getStoreReviews(Long storeId) {
         StoreInfoEntity store = storeInfoRepository.findById(storeId)
-                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "존재하지 않는 식당입니다. storeId를 확인해 주세요."));
 
         List<ReviewEntity> reviews = reviewRepository.findAllByStoreIdOrderByCreatedAtDesc(store);
 
         return reviews.stream().map(review -> {
-            List<String> hashtags = hashtagRepository.findAllByReviewId(review).stream()
-                    .map(hashtag -> hashtag.getHashtagName().getDescription())
+            List<HashtagType> hashtags = hashtagRepository.findAllByReviewId(review).stream()
+                    .map(HashtagEntity::getHashtagName)
                     .toList();
 
             List<String> imageIds = reviewImageRepository.findAllByReviewId(review).stream()

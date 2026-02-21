@@ -2,6 +2,7 @@ package com.type404.backend.domain.review.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.type404.backend.domain.review.entity.HashtagType;
 import com.type404.backend.domain.review.entity.ReviewEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,12 +34,12 @@ public class ReviewListResponseDTO {
     private LocalDateTime createdAt;
 
     @JsonProperty("hashtag")
-    private List<String> hashtags;
+    private List<HashtagType> hashtags;
 
     @JsonProperty("review_img")
     private List<String> reviewImages;
 
-    public static ReviewListResponseDTO fromEntity(ReviewEntity review, List<String> hashtags, List<String> imageIds) {
+    public static ReviewListResponseDTO fromEntity(ReviewEntity review, List<HashtagType> hashtags, List<String> imageIds) {
         return ReviewListResponseDTO.builder()
                 .reviewId(review.getReviewPK())
                 .reviewWriter(review.getUserId().getUserNickname())
