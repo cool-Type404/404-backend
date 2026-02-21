@@ -85,6 +85,7 @@ public class ReviewService {
             throw new CustomException(ErrorCode.ACCESS_DENIED, "본인이 작성한 리뷰만 삭제할 수 있습니다.");
         }
 
+        reviewLikeRepository.deleteAllByReviewId(review);
         reviewImageRepository.deleteAllByReviewId(review);
         hashtagRepository.deleteAllByReviewId(review);
 
@@ -98,6 +99,10 @@ public class ReviewService {
         ReviewEntity review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "좋아요를 누를 리뷰가 존재하지 않습니다."));
 
+        if (review.getUserId().getUserPK().equals(user.getUserPK())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS, "본인이 작성한 리뷰에는 좋아요를 누를 수 없습니다.");
+        }
+
         if (reviewLikeRepository.findByUserIdAndReviewId(user, review).isEmpty()) {
             LikeEntity newLike = LikeEntity.builder()
                     .userId(user)
@@ -110,7 +115,7 @@ public class ReviewService {
     }
 
 
-    // 식당 리뷰 삭제 기능
+    // 식당 리뷰 좋아요 삭제 기능
     @Transactional
     public void removeReviewLike(UserInfoEntity user, Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)
