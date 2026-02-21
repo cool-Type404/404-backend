@@ -172,21 +172,23 @@ public class StoreService {
 
         int imgCount = (menuImgs == null) ? 0 : menuImgs.size();
 
-        if (menus.size() != imgCount) {
+        if (imgCount > 0 && menus.size() != imgCount) {
             throw new CustomException(ErrorCode.INVALID_FORMAT,
-                    String.format("메뉴 개수(%d)와 이미지 개수(%d)가 일치하지 않습니다.", menus.size(), imgCount));
+                    String.format("메뉴 개수(%d)와 이미지 개수(%d)가 일치하지 않습니다. (이미지를 생략하려면 모두 비워주세요.)", menus.size(), imgCount));
         }
 
         for (int i = 0; i < menus.size(); i++) {
             byte[] pic = null;
-            MultipartFile mImg = menuImgs.get(i);
 
-            if (mImg != null && !mImg.isEmpty()) {
-                try {
-                    pic = mImg.getBytes();
-                } catch (IOException e) {
-                    throw new CustomException(ErrorCode.FILE_UPLOAD_FAIL,
-                            (i + 1) + "번째 메뉴 이미지 처리 중 오류가 발생했습니다.");
+            if (imgCount > 0) {
+                MultipartFile mImg = menuImgs.get(i);
+                if (mImg != null && !mImg.isEmpty()) {
+                    try {
+                        pic = mImg.getBytes();
+                    } catch (IOException e) {
+                        throw new CustomException(ErrorCode.FILE_UPLOAD_FAIL,
+                                (i + 1) + "번째 메뉴 이미지 처리 중 오류가 발생했습니다.");
+                    }
                 }
             }
 
