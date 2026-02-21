@@ -43,6 +43,10 @@ public class ReviewService {
             HashtagType.validateHashtags(hashtagNames);
         }
 
+        if (images != null && images.size() > 3) {
+            throw new CustomException(ErrorCode.INVALID_PARAMETER, "리뷰 이미지는 3개까지 추가할 수 있습니다.");
+        }
+
         ReviewEntity review = reviewRepository.save(request.toEntity(user, store));
 
         saveReviewImages(review, images);
