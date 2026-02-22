@@ -15,19 +15,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StoreListResponseDTO {
-    @JsonProperty("store_info_id")
+
     private Long storeInfoPK;
 
-    @JsonProperty("store_name")
     private String storeName;
 
-    @JsonProperty("store_type")
     private StoreCategory storeCategory;
 
-    @JsonProperty("is_open")
     private Boolean isOpen;
 
-    @JsonProperty("store_rating")
     private BigDecimal storeRating;
 
     public static StoreListResponseDTO fromEntity(StoreInfoEntity entity) {

@@ -15,19 +15,14 @@ import java.util.Base64;
 @AllArgsConstructor
 public class MenuResponseDTO {
 
-    @JsonProperty("menu_id")
     private Long menuPK;
 
-    @JsonProperty("menu_name")
     private String menuName;
 
-    @JsonProperty("price")
     private String price;
 
-    @JsonProperty("is_rec")
     private Boolean isRec;
 
-    @JsonProperty("menu_img")
     private String menuImg;
 
     public static MenuResponseDTO fromEntity(StoreMenuEntity entity) {

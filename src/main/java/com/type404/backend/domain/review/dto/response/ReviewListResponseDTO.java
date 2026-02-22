@@ -17,26 +17,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewListResponseDTO {
 
-    @JsonProperty("review_id")
     private Long reviewId;
 
-    @JsonProperty("review_writer")
     private String reviewWriter;
 
-    @JsonProperty("review_contents")
     private String reviewContents;
 
-    @JsonProperty("review_rating")
     private BigDecimal reviewRating;
 
-    @JsonProperty("created_at")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDateTime createdAt;
 
-    @JsonProperty("hashtag")
     private List<HashtagType> hashtags;
 
-    @JsonProperty("review_img")
     private List<String> reviewImages;
 
     public static ReviewListResponseDTO fromEntity(ReviewEntity review, List<HashtagType> hashtags, List<String> imageIds) {
