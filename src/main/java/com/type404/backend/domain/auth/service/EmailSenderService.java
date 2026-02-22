@@ -13,7 +13,7 @@ public class EmailSenderService {
     public void sendVerificationMail(String email, String authCode) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
-        message.setSubject("[홍토리] 이메일 인증을 완료해주세요.");
+        message.setSubject("[홍밥] 이메일 인증을 완료해주세요.");
         message.setText("인증 코드 : " + authCode + "\n5분 후 인증 코드가 만료됩니다.\n시간 안에 이메일 인증을 완료해주세요!");
         mailSender.send(message);
     }

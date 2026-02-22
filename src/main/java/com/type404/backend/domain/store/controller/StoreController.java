@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@Tag(name = "Store API", description = "식당 등록, 조회, 검색 및 필터링을 담당하는 API")
+@Tag(name = "Store", description = "식당 관련 API")
 @RestController
 @RequestMapping("/api/stores")
 @RequiredArgsConstructor

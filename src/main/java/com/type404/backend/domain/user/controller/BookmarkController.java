@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Tag(name = "Bookmark", description = "사용자 북마크 API")
+@Tag(name = "user", description = "사용자 개인화 기능 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/bookmarks")
