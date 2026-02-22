@@ -16,16 +16,13 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookmarkListResponseDTO {
-    @JsonProperty("store_info_id")
+
     private Long storeId;
 
-    @JsonProperty("store_name")
     private String storeName;
 
-    @JsonProperty("store_type")
     private StoreCategory storeCategory;
 
-    @JsonProperty("store_rating")
     private BigDecimal storeRating;
 
     public static BookmarkListResponseDTO fromEntity(BookmarkEntity bookmark) {

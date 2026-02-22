@@ -32,8 +32,6 @@ public class ReviewRequestDTO {
     @JsonProperty("hashtag")
     private List<HashtagType> hashtags;
 
-    @JsonProperty("review_img")
-    private List<String> reviewImages;
 
     public ReviewEntity toEntity(UserInfoEntity user, StoreInfoEntity store) {
         return ReviewEntity.builder()

@@ -33,15 +33,19 @@ public class ReviewService {
     public void createReview(UserInfoEntity user, Long storeId,
                              ReviewRequestDTO request, List<MultipartFile> images) {
 
-        if (request.getHashtags() != null) {
+        StoreInfoEntity store = storeInfoRepository.findById(storeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "존재하지 않는 식당입니다. storeId를 확인해 주세요."));
+
+        if (request.getHashtags() != null && !request.getHashtags().isEmpty()) {
             List<String> hashtagNames = request.getHashtags().stream()
                     .map(Enum::name)
                     .toList();
             HashtagType.validateHashtags(hashtagNames);
         }
 
-        StoreInfoEntity store = storeInfoRepository.findById(storeId)
-                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
+        if (images != null && images.size() > 3) {
+            throw new CustomException(ErrorCode.INVALID_PARAMETER, "리뷰 이미지는 3개까지 추가할 수 있습니다.");
+        }
 
         ReviewEntity review = reviewRepository.save(request.toEntity(user, store));
 
@@ -53,13 +57,13 @@ public class ReviewService {
     // 식당 리뷰 전체 조회 기능
     public List<ReviewListResponseDTO> getStoreReviews(Long storeId) {
         StoreInfoEntity store = storeInfoRepository.findById(storeId)
-                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "식당 정보가 존재하지 않습니다."));
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "존재하지 않는 식당입니다. storeId를 확인해 주세요."));
 
         List<ReviewEntity> reviews = reviewRepository.findAllByStoreIdOrderByCreatedAtDesc(store);
 
         return reviews.stream().map(review -> {
-            List<String> hashtags = hashtagRepository.findAllByReviewId(review).stream()
-                    .map(hashtag -> hashtag.getHashtagName().getDescription())
+            List<HashtagType> hashtags = hashtagRepository.findAllByReviewId(review).stream()
+                    .map(HashtagEntity::getHashtagName)
                     .toList();
 
             List<String> imageIds = reviewImageRepository.findAllByReviewId(review).stream()
@@ -81,6 +85,7 @@ public class ReviewService {
             throw new CustomException(ErrorCode.ACCESS_DENIED, "본인이 작성한 리뷰만 삭제할 수 있습니다.");
         }
 
+        reviewLikeRepository.deleteAllByReviewId(review);
         reviewImageRepository.deleteAllByReviewId(review);
         hashtagRepository.deleteAllByReviewId(review);
 
@@ -94,6 +99,10 @@ public class ReviewService {
         ReviewEntity review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "좋아요를 누를 리뷰가 존재하지 않습니다."));
 
+        if (review.getUserId().getUserPK().equals(user.getUserPK())) {
+            throw new CustomException(ErrorCode.UNAUTHORIZED_ACCESS, "본인이 작성한 리뷰에는 좋아요를 누를 수 없습니다.");
+        }
+
         if (reviewLikeRepository.findByUserIdAndReviewId(user, review).isEmpty()) {
             LikeEntity newLike = LikeEntity.builder()
                     .userId(user)
@@ -106,7 +115,7 @@ public class ReviewService {
     }
 
 
-    // 식당 리뷰 삭제 기능
+    // 식당 리뷰 좋아요 삭제 기능
     @Transactional
     public void removeReviewLike(UserInfoEntity user, Long reviewId) {
         ReviewEntity review = reviewRepository.findById(reviewId)

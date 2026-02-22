@@ -16,22 +16,16 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class OpeningHourResponseDTO {
 
-    @JsonProperty("opening_hours_id")
     private Long openHoursPK;
 
-    @JsonProperty("day")
     private Days days;
 
-    @JsonProperty("start_time")
     private LocalTime startTime;
 
-    @JsonProperty("end_time")
     private LocalTime endTime;
 
-    @JsonProperty("break_start_time")
     private LocalTime breakStartTime;
 
-    @JsonProperty("break_end_time")
     private LocalTime breakEndTime;
 
     public static OpeningHourResponseDTO fromEntity(OpeningHoursEntity entity) {

@@ -22,40 +22,28 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class StoreResponseDTO {
 
-    @JsonProperty("store_info_id")
     private Long storeInfoPK;
 
-    @JsonProperty("store_type")
     private StoreCategory storeCategory;
 
-    @JsonProperty("eating_level")
     private EatingLevel eatingLevel;
 
-    @JsonProperty("store_name")
     private String storeName;
 
-    @JsonProperty("store_address")
     private String storeAddress;
 
-    @JsonProperty("store_number")
     private String storeNumber;
 
-    @JsonProperty("is_open")
     private Boolean isOpen;
 
-    @JsonProperty("avg_rating")
     private BigDecimal avgRating;
 
-    @JsonProperty("store_img")
     private String storeImage;
 
-    @JsonProperty("seat")
     private List<SeatResponseDTO> seats;
 
-    @JsonProperty("opening_hours")
     private List<OpeningHourResponseDTO> openingHours;
 
-    @JsonProperty("menus")
     private List<MenuResponseDTO> menus;
 
     public static StoreResponseDTO fromEntity(

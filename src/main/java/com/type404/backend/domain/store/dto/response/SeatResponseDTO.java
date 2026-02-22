@@ -13,16 +13,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SeatResponseDTO {
 
-    @JsonProperty("seat_id")
     private Long seatPK;
 
-    @JsonProperty("single_seat")
     private Boolean singleSeat;
 
-    @JsonProperty("double_seat")
     private Boolean doubleSeat;
 
-    @JsonProperty("triple_seat")
     private Boolean tripleSeat;
 
     public static SeatResponseDTO fromEntity(StoreSeatEntity entity) {
