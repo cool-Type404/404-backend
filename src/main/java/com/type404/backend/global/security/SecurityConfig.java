@@ -32,6 +32,7 @@ public class SecurityConfig {
         http
                 .httpBasic(httpBasicConfigurer -> httpBasicConfigurer.disable())
                 .csrf(csrfConfigurer -> csrfConfigurer.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequestsConfigurer -> authorizeRequestsConfigurer
                         // 1. Swagger 및 시스템 공통 경로 허용
