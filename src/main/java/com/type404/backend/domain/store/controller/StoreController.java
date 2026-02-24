@@ -3,6 +3,7 @@ package com.type404.backend.domain.store.controller;
 import com.type404.backend.domain.auth.entity.enumtype.EatingLevel;
 import com.type404.backend.domain.store.dto.request.StoreRequestDTO;
 import com.type404.backend.domain.store.dto.response.StoreListResponseDTO;
+import com.type404.backend.domain.store.dto.response.StoreLocationListResponseDTO;
 import com.type404.backend.domain.store.dto.response.StoreResponseDTO;
 import com.type404.backend.domain.store.entity.enumtype.StoreCategory;
 import com.type404.backend.domain.store.service.StoreService;
@@ -51,6 +52,13 @@ public class StoreController {
     @GetMapping
     public ResponseEntity<List<StoreListResponseDTO>> getStoreList() {
         List<StoreListResponseDTO> response = storeService.getAllStoreList();
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "전체 매장 위경도 반환", description = "모든 매장의 주소를 지오코딩하여 위·경도 목록을 반환합니다.")
+    @PostMapping("/locations")
+    public ResponseEntity<StoreLocationListResponseDTO> syncStoreLocations() {
+        StoreLocationListResponseDTO response = storeService.syncAllStoreCoordinates();
         return ResponseEntity.ok(response);
     }
 
