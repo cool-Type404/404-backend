@@ -44,4 +44,16 @@ public class StoreInfoEntity {
 
     @Column(name = "store_img", columnDefinition = "LONGBLOB")
     private byte[] storeImage;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+
+    public void setCoordinates(Double latitude, Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

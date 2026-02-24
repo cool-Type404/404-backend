@@ -6,6 +6,7 @@ import com.type404.backend.domain.store.dto.request.OpeningHourRequestDTO;
 import com.type404.backend.domain.store.dto.request.SeatRequestDTO;
 import com.type404.backend.domain.store.dto.request.StoreRequestDTO;
 import com.type404.backend.domain.store.dto.response.StoreListResponseDTO;
+import com.type404.backend.domain.store.dto.response.StoreLocationListResponseDTO;
 import com.type404.backend.domain.store.dto.response.StoreResponseDTO;
 import com.type404.backend.domain.store.entity.OpeningHoursEntity;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
@@ -35,6 +36,7 @@ public class StoreService {
     private final StoreMenuRepository storeMenuRepository;
     private final StoreSeatRepository storeSeatRepository;
     private final OpeningHoursRepository openingHoursRepository;
+    private final NaverGeocodingService naverGeocodingService;
 
     // 관리자 식당 등록 기능
     @Transactional
@@ -101,6 +103,12 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
+    // 식당 위·경도만 조회 (지도 마커용, 지오코딩된 식당만)
+    public StoreLocationListResponseDTO getStoreLocations() {
+        List<StoreInfoEntity> stores = storeInfoRepository.findByLatitudeIsNotNullAndLongitudeIsNotNull();
+        return StoreLocationListResponseDTO.fromEntities(stores);
+    }
+
 
 
     /*
@@ -117,7 +125,7 @@ public class StoreService {
         }
     }
 
-    // 식당 기본 정보 등록
+    // 식당 기본 정보 등록 (주소로 네이버 지도 지오코딩 후 위·경도 저장)
     private StoreInfoEntity saveStoreInfo(StoreRequestDTO dto, MultipartFile storeImg) {
         byte[] imageBytes = null;
         if (storeImg != null && !storeImg.isEmpty()) {
@@ -127,7 +135,13 @@ public class StoreService {
                 throw new CustomException(ErrorCode.FILE_UPLOAD_FAIL, "매장 이미지 처리 중 오류가 발생했습니다.");
             }
         }
-        return storeInfoRepository.save(dto.toEntity(imageBytes));
+        StoreInfoEntity saved = storeInfoRepository.save(dto.toEntity(imageBytes));
+        naverGeocodingService.geocode(dto.getStoreAddress())
+                .ifPresent(coords -> {
+                    saved.setCoordinates(coords[0], coords[1]);
+                    storeInfoRepository.save(saved);
+                });
+        return saved;
     }
 
     // 좌석 정보 등록
