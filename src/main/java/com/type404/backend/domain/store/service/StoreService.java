@@ -103,10 +103,22 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    // 식당 위·경도만 조회 (지도 마커용, 지오코딩된 식당만)
-    public StoreLocationListResponseDTO getStoreLocations() {
-        List<StoreInfoEntity> stores = storeInfoRepository.findByLatitudeIsNotNullAndLongitudeIsNotNull();
-        return StoreLocationListResponseDTO.fromEntities(stores);
+
+    // 전체 매장 주소 위경도 반환
+    @Transactional
+    public StoreLocationListResponseDTO syncAllStoreCoordinates() {
+        List<StoreInfoEntity> needGeocode = storeInfoRepository.findByLatitudeIsNullOrLongitudeIsNull();
+        for (StoreInfoEntity store : needGeocode) {
+            String address = store.getStoreAddress();
+            if (address == null || address.isBlank()) continue;
+            naverGeocodingService.geocode(address)
+                    .ifPresent(coords -> {
+                        store.setCoordinates(coords[0], coords[1]);
+                        storeInfoRepository.save(store);
+                    });
+        }
+        List<StoreInfoEntity> withCoordinates = storeInfoRepository.findByLatitudeIsNotNullAndLongitudeIsNotNull();
+        return StoreLocationListResponseDTO.fromEntities(withCoordinates);
     }
 
 

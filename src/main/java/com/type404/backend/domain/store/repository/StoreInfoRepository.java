@@ -11,4 +11,7 @@ public interface StoreInfoRepository extends JpaRepository<StoreInfoEntity, Long
 
     /** 위·경도가 모두 있는 식당만 조회 (지도 마커용) */
     List<StoreInfoEntity> findByLatitudeIsNotNullAndLongitudeIsNotNull();
+
+    /** 위·경도가 없는 식당만 조회 (주소→위경도 동기화용) */
+    List<StoreInfoEntity> findByLatitudeIsNullOrLongitudeIsNull();
 }

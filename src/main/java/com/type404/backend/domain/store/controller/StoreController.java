@@ -55,10 +55,10 @@ public class StoreController {
         return ResponseEntity.ok(response);
     }
 
-    @Operation(summary = "식당 위·경도 목록 조회", description = "지오코딩된 식당들의 위도·경도만 반환합니다 (지도 마커용).")
-    @GetMapping("/locations")
-    public ResponseEntity<StoreLocationListResponseDTO> getStoreLocations() {
-        StoreLocationListResponseDTO response = storeService.getStoreLocations();
+    @Operation(summary = "전체 매장 위경도 반환", description = "모든 매장의 주소를 지오코딩하여 위·경도 목록을 반환합니다.")
+    @PostMapping("/locations")
+    public ResponseEntity<StoreLocationListResponseDTO> syncStoreLocations() {
+        StoreLocationListResponseDTO response = storeService.syncAllStoreCoordinates();
         return ResponseEntity.ok(response);
     }
 

@@ -46,7 +46,7 @@ public class SecurityConfig {
                         // 2. 비로그인 허용 기능
                         .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/stores/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/stores").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/stores/**").permitAll()
 
                         // 3. 그 외 모든 요청(POST, PUT, DELETE 등)은 로그인 필수
                         .anyRequest().authenticated()
