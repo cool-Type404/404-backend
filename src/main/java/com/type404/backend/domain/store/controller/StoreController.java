@@ -1,6 +1,7 @@
 package com.type404.backend.domain.store.controller;
 
 import com.type404.backend.domain.auth.entity.enumtype.EatingLevel;
+import com.type404.backend.domain.store.dto.request.MenuRequestDTO;
 import com.type404.backend.domain.store.dto.request.StoreRequestDTO;
 import com.type404.backend.domain.store.dto.response.StoreListResponseDTO;
 import com.type404.backend.domain.store.dto.response.StoreLocationListResponseDTO;
@@ -37,6 +38,17 @@ public class StoreController {
     ) {
         storeService.createStore(requestDTO, storeImage, menuImages);
         return ResponseEntity.status(HttpStatus.CREATED).body("식당 등록 성공");
+    }
+
+    @Operation(summary = "이미 등록된 매장에 메뉴 추가", description = "이미 등록된 식당에 메뉴 여러 개를 한 번에 추가합니다.")
+    @PostMapping(value = "/{storeId}/menus", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> addMenusToStore(
+            @PathVariable("storeId") Long storeId,
+            @RequestPart("menuData") @Valid List<MenuRequestDTO> menuData,
+            @RequestPart(value = "menuImages", required = false) List<MultipartFile> menuImages
+    ) {
+        storeService.addMenusToStore(storeId, menuData, menuImages);
+        return ResponseEntity.status(HttpStatus.CREATED).body("메뉴 추가 성공");
     }
 
     @Operation(summary = "식당 상세 정보 조회", description = "특정 식당의 상세 정보를 조회합니다.")

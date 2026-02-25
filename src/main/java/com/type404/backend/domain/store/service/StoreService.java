@@ -222,6 +222,28 @@ public class StoreService {
         }
     }
 
+    // 기존 스토어에 메뉴 여러 개(이미지 포함) 추가
+    @Transactional
+    public void addMenusToStore(Long storeId, List<MenuRequestDTO> menuList, List<MultipartFile> menuImages) {
+        StoreInfoEntity store = storeInfoRepository.findById(storeId)
+                .orElseThrow(() -> new CustomException(ErrorCode.DATA_NOT_EXIST, "해당 식당을 찾을 수 없습니다."));
+
+        List<MenuRequestDTO> menus = (menuList == null || menuList.isEmpty())
+                ? List.of()
+                : menuList;
+        if (menus.isEmpty()) {
+            throw new CustomException(ErrorCode.INVALID_PARAMETER, "메뉴 정보가 최소 하나 이상 필요합니다.");
+        }
+
+        List<MultipartFile> imgs = (menuImages == null) ? List.of() : menuImages;
+        if (!imgs.isEmpty() && menus.size() != imgs.size()) {
+            throw new CustomException(ErrorCode.INVALID_FORMAT,
+                    String.format("메뉴 개수(%d)와 이미지 개수(%d)가 일치하지 않습니다. (이미지를 생략하려면 모두 비워주세요.)", menus.size(), imgs.size()));
+        }
+
+        saveStoreMenus(menus, imgs.isEmpty() ? null : imgs, store);
+    }
+
     /*
     *  이미지 데이터 추출 로직
     */
