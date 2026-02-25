@@ -39,8 +39,8 @@ public class StoreRequestDTO {
     private String storeAddress;
 
     @Pattern(
-            regexp = "^(02|0[3-9]{1}[0-9]{1}|010)-[0-9]{3,4}-[0-9]{4}$",
-            message = "전화번호 형식이 올바르지 않습니다. (예: 02-123-4567 또는 010-1234-5678)"
+            regexp = "^(02|0[3-9]{1}[0-9]{1}|010|050[0-9]{1})-[0-9]{3,4}-[0-9]{4}$",
+            message = "전화번호 형식이 올바르지 않습니다. (예: 02-123-4567, 010-1234-5678 또는 0507-1234-5678)"
     )
     @JsonProperty("store_number")
     private String storeNumber;
