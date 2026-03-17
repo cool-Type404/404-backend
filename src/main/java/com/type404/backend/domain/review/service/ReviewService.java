@@ -70,7 +70,9 @@ public class ReviewService {
                     .map(imageEntity -> String.valueOf(imageEntity.getReviewImgPK()))
                     .toList();
 
-            return ReviewListResponseDTO.fromEntity(review, hashtags, imageIds);
+            Long likeCount = reviewLikeRepository.countByReviewId(review);
+
+            return ReviewListResponseDTO.fromEntity(review, hashtags, imageIds, likeCount);
         }).collect(Collectors.toList());
     }
 

@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface ReviewLikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByUserIdAndReviewId(UserInfoEntity userId, ReviewEntity reviewId);
 
+    Long countByReviewId(ReviewEntity reviewId);
+
     @Modifying
     @Query("DELETE FROM LikeEntity l WHERE l.reviewId = :review")
     void deleteAllByReviewId(@Param("review") ReviewEntity review);
