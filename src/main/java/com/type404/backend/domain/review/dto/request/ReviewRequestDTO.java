@@ -5,7 +5,6 @@ import com.type404.backend.domain.auth.entity.UserInfoEntity;
 import com.type404.backend.domain.review.entity.HashtagType;
 import com.type404.backend.domain.review.entity.ReviewEntity;
 import com.type404.backend.domain.store.entity.StoreInfoEntity;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +27,6 @@ public class ReviewRequestDTO {
     private BigDecimal reviewRating;
 
     @Size(max = 3, message = "해시태그는 최대 3개까지 선택 가능합니다.")
-    @Schema(description = "해시태그 목록", implementation = HashtagType.class)
     @JsonProperty("hashtag")
     private List<HashtagType> hashtags;
 

@@ -32,7 +32,12 @@ public class ReviewListResponseDTO {
 
     private List<String> reviewImages;
 
-    public static ReviewListResponseDTO fromEntity(ReviewEntity review, List<HashtagType> hashtags, List<String> imageIds) {
+    private Long likeCount;
+
+    public static ReviewListResponseDTO fromEntity(ReviewEntity review,
+                                                   List<HashtagType> hashtags,
+                                                   List<String> imageIds,
+                                                   Long likeCount) {
         return ReviewListResponseDTO.builder()
                 .reviewId(review.getReviewPK())
                 .reviewWriter(review.getUserId().getUserNickname())
@@ -43,6 +48,7 @@ public class ReviewListResponseDTO {
                 .reviewImages(imageIds.stream()
                         .map(id -> "/api/reviews/image/" + id)
                         .toList())
+                .likeCount(likeCount)
                 .build();
     }
 }
